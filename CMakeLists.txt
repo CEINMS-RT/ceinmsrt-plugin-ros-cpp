@@ -1,0 +1,48 @@
+CMAKE_MINIMUM_REQUIRED (VERSION 3.10) 
+PROJECT(ROSPlugin)
+
+
+SET(BOOST_MIN_VERSION "1.48.0")
+SET(CMAKE_POSITION_INDEPENDENT_CODE ON) # For Dynamic loading
+# SET(CMAKE_VERBOSE_MAKEFILE OFF)
+# SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR})
+SET(USE_ROS ON)
+OPTION(BUILD_DOC "Build documentation" OFF)
+
+IF(UNIX)
+    IF(CMAKE_COMPILER_IS_GNUCC)
+         SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
+    ENDIF(CMAKE_COMPILER_IS_GNUCC)
+	SET(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined,-allow-multiple-definition") # For Dynamic loading
+	IF(CMAKE_VERSION VERSION_LESS "3.1")
+		IF(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+			SET(CMAKE_CXX_FLAGS "--std=gnu++11 ${CMAKE_CXX_FLAGS}")
+		ENDIF()
+	ELSE()
+		SET(CMAKE_CXX_STANDARD 11)
+	ENDIF()
+ENDIF(UNIX)
+
+FIND_PACKAGE(Boost ${BOOST_MIN_VERSION} COMPONENTS timer chrono thread date_time program_options filesystem system unit_test_framework REQUIRED)
+FIND_PACKAGE(XSD REQUIRED)
+FIND_PACKAGE(XercesC REQUIRED)
+
+IF(USE_ROS)
+	FIND_PACKAGE(roscpp)
+	FIND_PACKAGE(sensor_msgs)
+	FIND_PACKAGE(std_msgs)
+	FIND_PACKAGE(catkin REQUIRED COMPONENTS roscpp std_msgs sensor_msgs)
+
+
+ENDIF(USE_ROS)
+
+ INCLUDE_DIRECTORIES(
+	include
+	${roscpp_INCLUDE_DIRS}
+ )
+
+add_subdirectory(src)
+
+
+
+
