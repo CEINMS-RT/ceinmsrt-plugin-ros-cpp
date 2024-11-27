@@ -1,58 +1,64 @@
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1vHDQMUcbXRoh_hAcOvHvIXIQVk2dtlak3QBu-KU_PnGjMAwr6yHy9VdkSe04BuIF9_w&usqp=CAU" width=200>
+<img src="https://github.com/CEINMS-RT/ceinmsrt-core-cpp/blob/main/CEINMS-RT_V2_ICON.png" width="50%" alt="CEINMS-RT logo">
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)]()
 
-[CEINMS-rt]() installation and [use]().
-Plugin [installation]() and [compilation](). How to use a [plugin]().
+CEINMS-RT [installation](https://ceinms-docs.readthedocs.io/en/latest/Installation%20%5BWindows%5D.html) and [use](https://ceinms-docs.readthedocs.io/en/latest/Tutorial%20%5BWindows%5D%5BUbuntu%5D.html).
+Plugin [installation](#installation) and [compilation](https://ceinms-docs.readthedocs.io/en/latest/Compilation%20%5BWindows%5D.html). How to use a [plugin](#getting-started).
 
-# ROS Plugin for CEINMS-RT
+# ROS Plugin
 
-Current version is using ROS1 (Noetic) on Ubuntu 20.04. 
-The goal of this plugin is to offer a way to transmit information of CEINMS from and to ROS.
+The goal of this plugin is to offer a way to transmit information of CEINMS-RT from and to ROS.
+Current version is using ROS1 (Noetic) on Ubuntu 20.04.
 
-## Compile CEINMS with ROS
+## Installation
 
-The compilation of the plugin is done in CMake like CEINMS but before compilation the following step is needed:
+Before compilation the following step is needed:
 
-In the terminal run first:
 ``` bash
 . /opt/ros/noetic/setup.sh
 ```
 
-then
-``` bash
-cmake-gui
-```
-This will allow CEINMS to find all the ROS dependencies.
+This will allow CEINMS-RT to find all the ROS dependencies.
 
 ## Getting Started
 
 Plugin name for the EMG:
+
 ``` xml
 PluginEMGROS
 ```
 
 For torque/position:
+
 ``` xml
 PluginROS
 ```
 
-The name of the node for the EMG plugin is "EMG_CEINMS" and for the Torque/position "nms_model"
+The name of the node for the EMG plugin is "EMG_CEINMS" and for the Torque/position "nms_model".
 
 The inputs/outputs are the following:
-The EMG plugin only subscribe to a topic name "emg" and expect a vector with a size of the number of channel described in the model xml.
+The EMG plugin only subscribes to a topic name "emg" and expects a vector with a size of the number of channels described in the model xml. \
 For the torque/position plugin, the plugin creates the following topics:
 
-    joint_state (type sensor_msgs::JointState) the size of the vector is the same as the number of joint in the model;
-    muscle_state (type sensor_msgs::JointState) the size of the vector is the same as the number of muscle in the model;
-    muscle_state_active (type sensor_msgs::JointState) the size of the vector is the same as the number of muscle in the model;
-    muscle_state_passive (type sensor_msgs::JointState) the size of the vector is the same as the number of muscle in the model;
-    tendon_strain (type sensor_msgs::JointState) the size of the vector is the same as the number of muscle in the model;
+* joint_state (type sensor_msgs::JointState) \
+The size of the vector is the same as the number of joints in the model;
+* muscle_state (type sensor_msgs::JointState) \
+The size of the vector is the same as the number of muscles in the model;
+* muscle_state_active (type sensor_msgs::JointState) \
+The size of the vector is the same as the number of muscles in the model;
+* muscle_state_passive (type sensor_msgs::JointState) \
+The size of the vector is the same as the number of muscles in the model;
+* tendon_strain (type sensor_msgs::JointState) \
+The size of the vector is the same as the number of muscles in the model;
 
-And subscribe in the following topics:
+And subscribe to the following topics:
 
-    joint_position (type sensor_msgs::JointState) The size of the vector does not matter but it expect two joint ("jt_L5_S1_y" (translated to "L5_S1_Flex_Ext") and "jt_L5_S1_z"(translated to "L5_S1_axial_rotation")). This part to should be changed for your need see PluginROS.cpp line 50;
-    joint_torque_ext (type sensor_msgs::JointState) The size of the vector does not matter since the ID torque is only use for visualization in the GUI. This part to should be changed for your need see PluginROS.cpp line 83;
+* joint_position (type sensor_msgs::JointState) \
+The size of the vector does not matter, but it expect two joints: "jt_L5_S1_y" (translated to "L5_S1_Flex_Ext") and "jt_L5_S1_z" (translated to "L5_S1_axial_rotation").\
+To change it to your needs [see](src/PluginROS.cpp#L45);
+* joint_torque_ext (type sensor_msgs::JointState)\
+The size of the vector does not matter since the ID torque is only used for visualization in the GUI.\
+To change it to your needs [see](src/PluginROS.cpp#L83);
 
 ## Citation
 
@@ -70,7 +76,3 @@ If you find this repository useful in your research, please consider giving a st
   publisher={IEEE}
 }
 ```
-
-## License
-
-CEINMS-rt and plugins are licensed under the [Apache License](LICENSE).
