@@ -88,12 +88,6 @@ void PluginEMGROS::init(std::string xmlName, std::string executionName)
 		dataEMG_[*it] = 0;
 
 
-	if (record_)
-	{
-		logger_ = new OpenSimFileLogger<double>(_outDirectory);
-		logger_->addLog(Logger::EmgsFilter, nameVect_);
-	}
-
 	std::map<std::string, std::string> rosArg;
 	ros::init(rosArg, "EMG_CEINMS", ros::init_options::NoSigintHandler);
 	rosNode_ = new ros::NodeHandle;
@@ -135,9 +129,6 @@ void PluginEMGROS::emgCallBackROS(const sensor_msgs::JointState& msg)
 //#else
 //	dataSave = data;
 //#endif
-
-	if (record_)
-		logger_->log(Logger::EmgsFilter, timeStamp_, dataSave);
 
 	dataMutex_.lock();
 	dataEMG_ = emgDataLocal;

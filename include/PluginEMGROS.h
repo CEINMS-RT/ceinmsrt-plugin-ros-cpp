@@ -6,7 +6,7 @@
 #include "ExecutionEmgXml.h"
 #include <ProducersPluginVirtual.h>
 #include "NMSmodel.hxx"
-#include "OpenSimFileLogger.h"
+#include "CeinmsFileLogger.h"
 #include <getTime.h>
 #include <thread>
 #include <mutex>
@@ -82,7 +82,7 @@ protected:
 	double timeStamp_;
 	double timeStampSafe_;
 	std::vector<unsigned long> varNameVect_;
-	OpenSimFileLogger<double>* logger_;
+	CeinmsFileLogger<double>* logger_;
 	bool record_;
 	std::set<std::string> nameSet_;
 	std::map<std::string, double> dataEMG_;

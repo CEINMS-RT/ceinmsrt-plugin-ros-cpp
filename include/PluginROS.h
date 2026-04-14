@@ -6,7 +6,7 @@
 #include "XMLInterpreter.h"
 #include <AngleAndComsumerPlugin.h>
 #include "ExecutionXmlReader.h"
-#include "OpenSimFileLogger.h"
+#include "CeinmsFileLogger.h"
 #include <getTime.h>
 #include "ros/ros.h"
 #include "sensor_msgs/JointState.h"
@@ -110,7 +110,7 @@ protected:
 	double timeStamp_;
 	double timeStampSafe_;
 	std::vector<unsigned long> varNameVect_;
-	OpenSimFileLogger<double>* logger_;
+	CeinmsFileLogger<double>* logger_;
 	std::map<std::string, double> dataAngle_;
 	std::map<std::string, double> dataAngleSafe_;
 	std::map<std::string, double> dataAngleXsens_;
